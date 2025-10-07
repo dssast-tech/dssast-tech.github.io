@@ -11,7 +11,7 @@ nav:
   - 活动通知: 
     - 前言: activities/index.md
   - 选课导引: course-guide-redirect.md
-  - 算力平台: compute-platform-redirect.md
+  - 算力平台: compute-platform-temp.md
   - 线上社区: community-redirect.md
 theme:
   name: material
