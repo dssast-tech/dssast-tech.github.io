@@ -7,32 +7,32 @@ hide:
 
 # 选课导引
 
-<div style="display: flex; align-items: center; justify-content: center; min-height: 60vh; text-align: center; padding: 1rem;">
-  <div>
-    <div style="margin-bottom: 1rem;">
-      <div style="display: inline-block; width: 40px; height: 40px; border: 3px solid #f3f3f3; border-top: 3px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-    </div>
-    <p style="font-size: 1.1rem; color: #666; margin: 0.5rem 0;">正在跳转到选课导引系统...</p>
-    <p style="margin-top: 0.8rem;">
-      <a href="https://google.com" style="color: #3498db; text-decoration: none; font-size: 0.9rem;">如果没有自动跳转，请点击这里</a>
-    </p>
-  </div>
+<div style="width:100%; background:#fff; position:relative; padding:0 0 0 0;">
+  <button id="toggle-mode-btn" style="position:absolute; top:-30px; right:0; z-index:10; padding:0.18rem 0.6rem; font-size:0.82rem; border-radius:4px; border:1px solid #3498db; background:#fff; color:#3498db; cursor:pointer;">切换为3D版</button>
+  <iframe id="course-iframe" src="https://nrdstudio.cn/view/link/c1391dc9223dce9a69c2a4629c542dee" style="border:none; width:100%; min-height:72vh; margin-top:-30px;" allowfullscreen></iframe>
 </div>
 
-<style>
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+<script>
+const btn = document.getElementById('toggle-mode-btn');
+const iframe = document.getElementById('course-iframe');
+let is2D = true;
+btn.onclick = function() {
+  if (is2D) {
+    iframe.src = 'https://nrdstudio.cn/view/link/f533c66425e9acdeb63c6bae94e993af';
+    btn.textContent = '切换为2D版';
+    is2D = false;
+  } else {
+    iframe.src = 'https://nrdstudio.cn/view/link/c1391dc9223dce9a69c2a4629c542dee';
+    btn.textContent = '切换为3D版';
+    is2D = true;
+  }
 }
-/* 隐藏页面标题 */
+</script>
+
+<style>
+/* 隐藏页面标题和导航 */
 .md-typeset h1:first-child {
   display: none;
 }
-</style>
 
-<script>
-// 延迟1秒后跳转，给用户看到加载效果
-setTimeout(function() {
-  window.location.href = "https://google.com";
-}, 1000);
-</script>
+</style>
