@@ -10,8 +10,9 @@ nav:
     - 前言: tech-sharing/index.md
   - 活动通知: 
     - 前言: activities/index.md
-  - 选课导引: 
-    - 前言: course-guide/index.md
+  - 选课导引: course-guide-redirect.md
+  - 算力平台: compute-platform-redirect.md
+  - 线上社区: community-redirect.md
 theme:
   name: material
   language: zh
