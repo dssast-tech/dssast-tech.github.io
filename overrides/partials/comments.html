@@ -1,6 +1,6 @@
 {% if page.meta and page.meta.comments %}
 <h2 id="__comments">💬 评论讨论</h2>
-<div id="__comments_container" style="margin-top: 2rem;">
+<div id="__comments_container" class="comments-container">
   <script>
     // 根据当前主题设置 Giscus 主题
     function getGiscusTheme() {
@@ -13,6 +13,9 @@
 
     // 动态加载 Giscus
     function loadGiscus() {
+      // 隐藏加载提示
+      const loadingElement = document.getElementById('comments-loading');
+      
       const script = document.createElement('script');
       script.src = 'https://giscus.app/client.js';
       script.setAttribute('data-repo', 'dssast-tech/dssast-tech.github.io');
@@ -23,11 +26,29 @@
       script.setAttribute('data-strict', '0');
       script.setAttribute('data-reactions-enabled', '1');
       script.setAttribute('data-emit-metadata', '0');
-      script.setAttribute('data-input-position', 'bottom');
+      script.setAttribute('data-input-position', 'top'); // 输入栏在顶部
       script.setAttribute('data-theme', getGiscusTheme());
       script.setAttribute('data-lang', 'zh-CN');
       script.setAttribute('crossorigin', 'anonymous');
       script.setAttribute('async', '');
+      
+      // 当 Giscus 加载完成时隐藏加载提示
+      script.onload = function() {
+        // 等待 Giscus 完全渲染
+        const checkGiscusLoaded = setInterval(() => {
+          const giscusFrame = document.querySelector('.giscus iframe');
+          if (giscusFrame) {
+            document.getElementById('__comments_container').classList.add('giscus-loaded');
+            clearInterval(checkGiscusLoaded);
+          }
+        }, 500);
+        
+        // 超时保护，最多等待10秒
+        setTimeout(() => {
+          document.getElementById('__comments_container').classList.add('giscus-loaded');
+          clearInterval(checkGiscusLoaded);
+        }, 10000);
+      };
       
       document.getElementById('__comments_container').appendChild(script);
     }
@@ -39,8 +60,16 @@
     var ref = document.querySelector("[data-md-component=palette]")
     if (ref) {
       ref.addEventListener("change", function() {
-        // 清除现有评论
+        // 显示加载提示
+        const loadingElement = document.getElementById('comments-loading');
+        if (loadingElement) {
+          loadingElement.style.display = 'block';
+        }
+        
+        // 移除 giscus-loaded 类并清除现有评论
         const commentsContainer = document.getElementById('__comments_container');
+        commentsContainer.classList.remove('giscus-loaded');
+        
         const existingGiscus = commentsContainer.querySelector('.giscus');
         if (existingGiscus) {
           existingGiscus.remove();
@@ -53,8 +82,8 @@
   </script>
   
   <!-- 评论加载提示 -->
-  <div id="comments-loading" style="text-align: center; padding: 2rem; color: #666;">
-    <div style="display: inline-block; width: 20px; height: 20px; border: 2px solid #f3f3f3; border-top: 2px solid #666; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 10px;"></div>
+  <div id="comments-loading">
+    <div class="spinner"></div>
     正在加载评论...
   </div>
   
@@ -64,9 +93,30 @@
       100% { transform: rotate(360deg); }
     }
     
-    /* 隐藏加载提示当评论加载完成时 */
-    .giscus:not(:empty) ~ #comments-loading {
-      display: none;
+    .comments-container {
+      margin-top: 2rem;
+    }
+    
+    #comments-loading {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+    }
+    
+    #comments-loading .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #666;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+    }
+    
+    /* 当 Giscus 加载完成后隐藏加载提示 */
+    .giscus-loaded #comments-loading {
+      display: none !important;
     }
   </style>
 </div>
