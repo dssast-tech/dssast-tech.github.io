@@ -1,0 +1,73 @@
+{% if page.meta and page.meta.comments %}
+<h2 id="__comments">💬 评论讨论</h2>
+<div id="__comments_container" style="margin-top: 2rem;">
+  <script>
+    // 根据当前主题设置 Giscus 主题
+    function getGiscusTheme() {
+      const palette = __md_get("__palette")
+      if (palette && typeof palette.color === "object") {
+        return palette.color.scheme === "slate" ? "dark" : "light"
+      }
+      return "light"
+    }
+
+    // 动态加载 Giscus
+    function loadGiscus() {
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'dssast-tech/dssast-tech.github.io');
+      script.setAttribute('data-repo-id', 'R_kgDOP9vGzQ'); // 请替换为你的实际仓库ID
+      script.setAttribute('data-category', 'General');
+      script.setAttribute('data-category-id', 'DIC_kwDOP9vGzc4CwWVO'); // 请替换为你的实际分类ID
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'bottom');
+      script.setAttribute('data-theme', getGiscusTheme());
+      script.setAttribute('data-lang', 'zh-CN');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.setAttribute('async', '');
+      
+      document.getElementById('__comments_container').appendChild(script);
+    }
+
+    // 页面加载完成后加载评论
+    document.addEventListener('DOMContentLoaded', loadGiscus);
+
+    // 主题切换时重新加载评论
+    var ref = document.querySelector("[data-md-component=palette]")
+    if (ref) {
+      ref.addEventListener("change", function() {
+        // 清除现有评论
+        const commentsContainer = document.getElementById('__comments_container');
+        const existingGiscus = commentsContainer.querySelector('.giscus');
+        if (existingGiscus) {
+          existingGiscus.remove();
+        }
+        
+        // 重新加载评论
+        setTimeout(loadGiscus, 100);
+      })
+    }
+  </script>
+  
+  <!-- 评论加载提示 -->
+  <div id="comments-loading" style="text-align: center; padding: 2rem; color: #666;">
+    <div style="display: inline-block; width: 20px; height: 20px; border: 2px solid #f3f3f3; border-top: 2px solid #666; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 10px;"></div>
+    正在加载评论...
+  </div>
+  
+  <style>
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* 隐藏加载提示当评论加载完成时 */
+    .giscus:not(:empty) ~ #comments-loading {
+      display: none;
+    }
+  </style>
+</div>
+{% endif %}
