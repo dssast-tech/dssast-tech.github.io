@@ -1,9 +1,22 @@
 site_name: 笃实科协
+repo_url: https://github.com/dssast-tech/dssast-tech.github.io
+repo_name: GitHub
 nav:
-  - 首页: index.md
+  - 首页:
+    - 欢迎: index.md
+  - 课程笔记: 
+    - 前言: course-notes/index.md
+  - 技术分享: 
+    - 前言: tech-sharing/index.md
+  - 活动通知: 
+    - 前言: activities/index.md
+  - 选课导引: 
+    - 前言: course-guide/index.md
 theme:
   name: material
   language: zh
+  icon:
+    repo: fontawesome/brands/github
   features:
     - navigation.tabs
     - navigation.top
@@ -35,4 +48,18 @@ markdown_extensions:
   - admonition
   - pymdownx.superfences
   - pymdownx.highlight
-  - pymdownx.emoji
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - attr_list
+  - md_in_html
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/dssast-tech
+      name: 笃实科协 GitHub 组织
