@@ -13,6 +13,24 @@
 
     // 动态加载 Giscus
     function loadGiscus() {
+      // 预先添加样式来隐藏 Giscus 的默认加载状态
+      const preStyle = document.createElement('style');
+      preStyle.id = 'giscus-hide-loading';
+      preStyle.textContent = `
+        .giscus .giscus-loading,
+        .giscus .giscus-loading-text,
+        .giscus .giscus-loading-image,
+        .giscus .giscus-loading-container,
+        .giscus-loading {
+          display: none !important;
+          visibility: hidden !important;
+        }
+        .giscus iframe {
+          opacity: 1 !important;
+        }
+      `;
+      document.head.appendChild(preStyle);
+      
       // 隐藏加载提示
       const loadingElement = document.getElementById('comments-loading');
       
@@ -39,9 +57,35 @@
           const giscusFrame = document.querySelector('.giscus iframe');
           if (giscusFrame) {
             document.getElementById('__comments_container').classList.add('giscus-loaded');
+            
+            // 隐藏 Giscus 自带的加载动画
+            const giscusContainer = document.querySelector('.giscus');
+            if (giscusContainer) {
+              // 添加自定义样式来隐藏加载状态
+              const style = document.createElement('style');
+              style.textContent = `
+                .giscus .giscus-loading,
+                .giscus .giscus-loading-text,
+                .giscus .giscus-loading-image {
+                  display: none !important;
+                }
+                .giscus .giscus-loading-container {
+                  display: none !important;
+                }
+              `;
+              document.head.appendChild(style);
+              
+              // 直接设置 iframe 样式
+              const iframe = giscusFrame;
+              if (iframe) {
+                iframe.style.opacity = '1';
+                iframe.style.display = 'block';
+              }
+            }
+            
             clearInterval(checkGiscusLoaded);
           }
-        }, 500);
+        }, 100); // 更频繁的检查
         
         // 超时保护，最多等待10秒
         setTimeout(() => {
@@ -117,6 +161,37 @@
     /* 当 Giscus 加载完成后隐藏加载提示 */
     .giscus-loaded #comments-loading {
       display: none !important;
+    }
+    
+    /* 隐藏 Giscus 自带的加载动画和文字 */
+    .giscus .giscus-loading {
+      display: none !important;
+    }
+    
+    /* 隐藏 Giscus iframe 的初始加载状态 */
+    .giscus iframe[src*="loading"] {
+      display: none !important;
+    }
+    
+    /* 全面隐藏 Giscus 的所有加载相关元素 */
+    .giscus .giscus-loading,
+    .giscus .giscus-loading-text,
+    .giscus .giscus-loading-image,
+    .giscus .giscus-loading-container,
+    .giscus-loading,
+    [class*="giscus-loading"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+    
+    /* 确保 Giscus 内容立即显示，不显示加载状态 */
+    .giscus {
+      min-height: 0 !important;
+    }
+    
+    .giscus iframe {
+      opacity: 1 !important;
     }
   </style>
 </div>
