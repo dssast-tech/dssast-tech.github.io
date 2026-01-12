@@ -14,7 +14,7 @@ hide:
     </div>
     <p style="font-size: 1.1rem; color: #666; margin: 0.5rem 0;">正在跳转到线上社区...</p>
     <p style="margin-top: 0.8rem;">
-      <a href="https://act.thucps.com" style="color: #27ae60; text-decoration: none; font-size: 0.9rem;">如果没有自动跳转，请点击这里</a>
+      <a href="https://community.dsc.tsinghua.edu.cn/user/#/" style="color: #27ae60; text-decoration: none; font-size: 0.9rem;">如果没有自动跳转，请点击这里</a>
     </p>
   </div>
 </div>
@@ -33,6 +33,6 @@ hide:
 <script>
 // 延迟1秒后跳转，给用户看到加载效果
 setTimeout(function() {
-  window.location.href = "https://act.thucps.com";
+  window.location.href = "https://community.dsc.tsinghua.edu.cn/user/#/";
 }, 1000);
 </script>
